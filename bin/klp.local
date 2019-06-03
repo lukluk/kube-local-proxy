@@ -1,0 +1,5 @@
+#!/bin/bash
+killall -9 kubectl &> /dev/null
+./kube-local-proxy gen > /tmp/klp
+bash /tmp/klp &
+./kube-local-proxy start
