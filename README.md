@@ -6,8 +6,8 @@ Local Proxy Server (Grpc + HTTP) for cross contexts
 ## Install
 
 ```
-$ git clone https://github.com/lukluk/kube-local-proxy.git $GOPATH/src/github/lukluk/kube-local-proxy
-$ cd $GOPATH/src/github/lukluk/kube-local-proxy
+$ git clone https://github.com/lukluk/kube-local-proxy.git $GOPATH/src/github.com/lukluk/kube-local-proxy
+$ cd $GOPATH/src/github.com/lukluk/kube-local-proxy
 $ go get github.com/google/tcpproxy
 $ go build -o bin/kube-local-proxy 
 $ cp bin/* /usr/local/bin/
