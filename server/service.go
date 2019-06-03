@@ -6,7 +6,7 @@ import (
 	"strconv"
 
 	"github.com/google/tcpproxy"
-	cfg "github.com/lukluk/kube-virtualhost/config"
+	cfg "github.com/lukluk/kube-local-proxy/config"
 )
 
 const httpPort = "80"

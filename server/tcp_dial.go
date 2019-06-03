@@ -8,7 +8,7 @@ import (
 	"net"
 	"time"
 
-	"github.com/lukluk/tcpproxy"
+	"github.com/google/tcpproxy"
 )
 
 type DialProxy struct {
@@ -90,7 +90,7 @@ func (dp *DialProxy) HandleConn(src net.Conn, bufs [][]byte, nri []int) {
 
 	errc := make(chan error, 1)
 	go proxyCopy(errc, src, dst)
-	go proxyCopy(errc, dst, src)
+	go proxyCopyC(errc, dst, src, bufs, nri)
 	<-errc
 }
 

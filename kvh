@@ -1,8 +1,0 @@
-#!/bin/bash
-killall -9 kubectl &> /dev/null
-./kube-virtualhost gen > /tmp/kvh
-bash /tmp/kvh &
-./kube-virtualhost start
-
-trap finish EXIT
-killall -9 kubectl &> /dev/null

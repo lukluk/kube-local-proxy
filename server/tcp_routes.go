@@ -2,11 +2,12 @@ package server
 
 import (
 	"fmt"
+	"io"
 	"net"
 	"strconv"
 	"strings"
 
-	cfg "github.com/lukluk/kube-virtualhost/config"
+	cfg "github.com/lukluk/kube-local-proxy/config"
 )
 
 type TCPServerRouter struct {
@@ -22,17 +23,16 @@ func NewTCPServerRouter(startingPort int, konfigs []cfg.Konfig) *TCPServerRouter
 }
 func (r *TCPServerRouter) HandleConn(conn net.Conn) {
 	fmt.Println("Handling new connection...")
-	// Close connection when this function ends
-
-	buf := make([]byte, 200)
 	var bufs [][]byte
 	var nrs []int
 	method := ""
 	for {
+		buf := buildBuffer(conn)
 		nr, _ := conn.Read(buf)
 		nrs = append(nrs, nr)
 		bufs = append(bufs, buf)
 		method = parseMethod(buf)
+		method = strings.Replace(method, "/", "", -1)
 		fmt.Println(method)
 		if method != "" {
 			break
@@ -42,7 +42,7 @@ func (r *TCPServerRouter) HandleConn(conn net.Conn) {
 	if method != "" {
 		startingPort := r.StartingPort
 		for _, konfig := range r.Konfigs {
-			if konfig.GrpcService != "" && strings.Contains(method, konfig.GrpcService) {
+			if konfig.GrpcService != "" && method == konfig.GrpcService {
 				dialProxy := DialProxy{
 					Addr: localhost + ":" + strconv.Itoa(startingPort),
 				}
@@ -51,6 +51,8 @@ func (r *TCPServerRouter) HandleConn(conn net.Conn) {
 			}
 			startingPort++
 		}
+		fallbackResponse(conn)
+		return
 	}
 
 }
@@ -85,4 +87,24 @@ func isLetter(r byte) bool {
 	}
 
 	return true
+}
+
+func buildBuffer(conn io.Reader) []byte {
+	var buf []byte
+	if buf == nil {
+		size := 32 * 1024
+		if l, ok := conn.(*io.LimitedReader); ok && int64(size) > l.N {
+			if l.N < 1 {
+				size = 1
+			} else {
+				size = int(l.N)
+			}
+		}
+		buf = make([]byte, size)
+	}
+	return buf
+}
+
+func fallbackResponse(w io.Writer) {
+	io.WriteString(w, "PROXY UNKNOWN\r\n")
 }

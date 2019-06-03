@@ -3,7 +3,7 @@ package cmd
 import (
 	"strconv"
 
-	cfg "github.com/lukluk/kube-virtualhost/config"
+	cfg "github.com/lukluk/kube-local-proxy/config"
 )
 
 func Gen(startingPort int, konfigs []cfg.Konfig) string {

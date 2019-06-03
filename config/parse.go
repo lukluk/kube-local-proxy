@@ -19,7 +19,7 @@ type Konfig struct {
 func GetConfig(path string) []Konfig {
 	file, err := os.Open(path)
 	if err != nil {
-		log.Fatal(err)
+		return nil
 	}
 	defer file.Close()
 

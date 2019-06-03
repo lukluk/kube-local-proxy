@@ -3,7 +3,7 @@ package cmd
 import (
 	"testing"
 
-	cfg "github.com/lukluk/kube-virtualhost/config"
+	cfg "github.com/lukluk/kube-local-proxy/config"
 )
 
 func TestGen(t *testing.T) {

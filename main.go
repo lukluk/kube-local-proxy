@@ -5,12 +5,12 @@ import (
 	"os"
 	"os/user"
 
-	"github.com/lukluk/kube-virtualhost/cmd"
-	"github.com/lukluk/kube-virtualhost/config"
-	"github.com/lukluk/kube-virtualhost/server"
+	"github.com/lukluk/kube-local-proxy/cmd"
+	"github.com/lukluk/kube-local-proxy/config"
+	"github.com/lukluk/kube-local-proxy/server"
 )
 
-const defaultConfigPath = ".kvhost.cfg"
+const defaultConfigPath = ".klp.cfg"
 
 func main() {
 	if len(os.Args) < 2 {
@@ -24,7 +24,10 @@ func main() {
 	startingPort := 3011
 
 	if arg == "start" {
-		fmt.Println(konfigs)
+		if konfigs == nil {
+			fmt.Println("config not found, please write to $HOME/.klp.cfg")
+			return
+		}
 		s := server.NewServer(startingPort, konfigs)
 		s.Start()
 	} else if arg == "gen" {
