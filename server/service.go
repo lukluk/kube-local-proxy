@@ -1,7 +1,6 @@
 package server
 
 import (
-	"fmt"
 	"log"
 	"strconv"
 
@@ -32,7 +31,6 @@ func (s *Server) Start() { //Http start
 		if konfig.GrpcService != "" {
 			s.registerTcp(konfig.VirtualHost, localPort)
 		} else {
-			fmt.Println("http")
 			s.registerHttp(konfig.VirtualHost, localPort)
 		}
 		localPort++
@@ -41,7 +39,6 @@ func (s *Server) Start() { //Http start
 }
 
 func (s *Server) registerHttp(vhost string, localPort int) {
-	fmt.Println(":"+httpPort, vhost, localhost+":"+strconv.Itoa(localPort))
 	s.Proxy.AddHTTPHostRoute(":"+httpPort, vhost, tcpproxy.To(localhost+":"+strconv.Itoa(localPort)))
 }
 

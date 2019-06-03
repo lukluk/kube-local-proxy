@@ -69,7 +69,7 @@ func TestGetConfig(t *testing.T) {
 			},
 		},
 	}
-	d1 := []byte("vhost=context/serviceName:8080\nvhost2=context/fooService:8080:com.gopay.withdrawal")
+	d1 := []byte("vhost=context/serviceName:8080\nvhost2=context/fooService:8080:com.gopay.withdrawal\n#vhost2=context/fooService:8080:com.gopay.withdrawal")
 	ioutil.WriteFile("/tmp/test.cfg", d1, 0644)
 
 	for _, tt := range tests {

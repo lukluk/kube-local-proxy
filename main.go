@@ -14,7 +14,6 @@ const defaultConfigPath = ".klp.cfg"
 
 func main() {
 	if len(os.Args) < 2 {
-		fmt.Println("kvh ready")
 		return
 	}
 	arg := os.Args[1]
@@ -28,6 +27,7 @@ func main() {
 			fmt.Println("config not found, please write to $HOME/.klp.cfg")
 			return
 		}
+		fmt.Println("kube-local-proxy ready!")
 		s := server.NewServer(startingPort, konfigs)
 		s.Start()
 	} else if arg == "gen" {

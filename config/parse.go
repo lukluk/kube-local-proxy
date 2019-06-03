@@ -26,7 +26,9 @@ func GetConfig(path string) []Konfig {
 	scanner := bufio.NewScanner(file)
 	var konfig []Konfig
 	for scanner.Scan() {
-		konfig = append(konfig, Explode(scanner.Text()))
+		if !strings.Contains(scanner.Text(), "#") {
+			konfig = append(konfig, Explode(scanner.Text()))
+		}
 	}
 
 	if err := scanner.Err(); err != nil {
