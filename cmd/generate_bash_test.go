@@ -19,7 +19,6 @@ func TestGen(t *testing.T) {
 		"service",
 		8080,
 		"com.gopay.withdrawal",
-		0,
 	}
 
 	tests := []struct {
@@ -33,8 +32,7 @@ func TestGen(t *testing.T) {
 				2000,
 				konfigs,
 			},
-			"kubectx context\npod=$(kubectl get pods --selector=app=service --field-selector=status.phase=Running  | tail -1 | awk '{print $1}')\n" +
-				"kubectl port-forward pods/$pod 2000:8080",
+			"echo context/service&& kubectx context\npod=$(kubectl get pods --field-selector=status.phase=Running | grep service | tail -1 | awk '{print $1}')\nkubectl port-forward pods/$pod 2000:8080 > /tmp/context.service.log & sleep 2; ",
 		},
 	}
 	for _, tt := range tests {

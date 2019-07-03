@@ -1,4 +1,5 @@
 #!/bin/bash
+echo "Setup proxy ..."
 killall -9 kubectl &> /dev/null
 kube-local-proxy gen > /tmp/klp
 bash /tmp/klp &
